@@ -19,7 +19,8 @@ app.use('/', userRoutes);
 
 
 mongoose.connect(process.env.MONGODB_URI, {
-  }); 
+  ssl: true,
+});
   
   const db = mongoose.connection;
   db.once('open', () => {
