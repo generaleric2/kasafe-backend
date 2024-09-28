@@ -5,7 +5,7 @@ const router = express.Router();
 
 // Routes
 router.post('/create', createUser);
-router.post('/login', loginUser);
+router.post('/user/login', loginUser);
 router.post('/deposit', deposit);
 router.post('/withdraw', withdraw);
 router.get('/history', viewHistory);
