@@ -1,3 +1,6 @@
 *.env
 *node_modules
 *package-lock.json
+*firebase.json
+*firebas.config.json
+*servicekey.json

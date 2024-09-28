@@ -4,7 +4,7 @@ const User = require('../models/userModels');
 
 const createUser = async (req, res) => {
   try {
-    const { name, email, password, group_id } = req.body;
+    const { name, email, phonenumber, password, group_id } = req.body;
 
     // Check if the email is already registered
     const existingUser = await User.findOne({ email });
@@ -18,6 +18,7 @@ const createUser = async (req, res) => {
     const newUser = new User({
       name,
       email,
+      phonenumber,
       password: hashedPassword,
       group_id,
     });
@@ -29,6 +30,33 @@ const createUser = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
+const verifyUser = async (req, res) =>{
+  const { phonenumber } = req.body;
+
+  try {
+    // 1. Verify the phone number is in the database
+    const user = await User.findOne({ phonenumber });
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' }); // If not found, return an error
+    }
+
+    // 2. Generate OTP and set expiration time
+    const otp = generateOTP();
+    const otpExpiresAt = new Date(Date.now() + 5 * 60000); // OTP expires in 5 minutes
+
+    // 3. Store OTP in the database
+    user.otp = otp;
+    user.otpExpiresAt = otpExpiresAt;
+    await user.save();
+
+    // 4. Send OTP to the provided phone number using Twilio
+    await sendOTP(phonenumber, otp);
+    res.json({ message: 'OTP sent successfully' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to send OTP' });
+  }
+}
 
 const loginUser = async (req, res) => {
   try {

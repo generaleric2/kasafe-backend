@@ -6,7 +6,7 @@ const groupSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  Id: {
+  adminId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Admin',
     required: true,
