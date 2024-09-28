@@ -24,7 +24,11 @@ const userSchema = new mongoose.Schema({
   },
   transactionHistory: [
     {
+<<<<<<< HEAD
       type: String,
+=======
+      type: String, // Placeholder for transactions, you may need to define a proper schema
+>>>>>>> c1c7ef32b8a9c7d253610543a14cdbfbd3e3455e
     },
   ],
 });
