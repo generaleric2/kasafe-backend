@@ -40,7 +40,7 @@ createGroup : async (req, res) => {
         return res.status(404).json({ message: 'Admin not found' });
       }
   
-      // Check if the group name is unique
+      
       const existingGroup = await Group.findOne({ name });
       if (existingGroup) {
         return res.status(400).json({ message: 'Group name already exists' });
